@@ -41,10 +41,8 @@ class Cart extends Model
         $query = static::query();
         
         if ($userId) {
-            // For authenticated users, get cart by user_id only
             $query->where('user_id', $userId)->whereNull('session_id');
         } else {
-            // For guests, get cart by session_id and user_id is null
             $query->where('session_id', $sessionId)->whereNull('user_id');
         }
         
@@ -59,9 +57,6 @@ class Cart extends Model
         ]);
     }
 
-    /**
-     * Get guest cart for merging
-     */
     public static function getGuestCart($sessionId)
     {
         return static::where('session_id', $sessionId)
@@ -70,9 +65,6 @@ class Cart extends Model
             ->first();
     }
 
-    /**
-     * Get or create user cart
-     */
     public static function getOrCreateUserCart($userId)
     {
         return static::firstOrCreate([

@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
-@section('title', 'Головна - ShopUA')
+@section('title', 'Головна')
 
 @section('content')
     <div class="container mt-4">
-        <!-- Hero Section -->
+        
         <div class="hero-section bg-gradient text-white rounded-4 p-5 mb-5">
             <div class="row align-items-center">
                 <div class="col-lg-6">
@@ -21,7 +21,7 @@
             </div>
         </div>
 
-        <!-- Products Section -->
+        
         <div id="products">
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h2 class="fw-bold">Каталог товарів</h2>
@@ -73,7 +73,6 @@
                                     <div class="d-grid gap-2">
                                         @if ($product->stock > 0)
                                             @if (isset($cartItems[$product->id]))
-                                                <!-- Product is in cart -->
                                                 <div class="btn-group" role="group">
                                                     <a href="{{ route('cart') }}" class="btn btn-success flex-grow-1">
                                                         <i class="fas fa-check me-2"></i>В кошику
@@ -81,7 +80,6 @@
                                                     </a>
                                                 </div>
                                             @else
-                                                <!-- Product not in cart -->
                                                 <form action="{{ route('cart.add') }}" method="POST"
                                                     class="add-to-cart-form" data-product-id="{{ $product->id }}">
                                                     @csrf
@@ -124,14 +122,12 @@
 @push('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Set base URLs for JavaScript
             const baseUrls = {
                 cart: '{{ route('cart') }}',
                 cartAdd: '{{ route('cart.add') }}',
-                productShow: '{{ url('/products') }}' // Base URL for products
+                productShow: '{{ url('/products') }}'
             };
 
-            // Handle add to cart forms with AJAX for dynamic update
             const addToCartForms = document.querySelectorAll('.add-to-cart-form');
 
             addToCartForms.forEach(form => {
@@ -142,14 +138,11 @@
                     const submitBtn = this.querySelector('button[type="submit"]');
                     const originalContent = submitBtn.innerHTML;
 
-                    // Show loading state
                     submitBtn.disabled = true;
                     submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Додавання...';
 
-                    // Get form data
                     const formData = new FormData(this);
 
-                    // Submit form normally first (for server validation and cart update)
                     fetch(this.action, {
                             method: 'POST',
                             body: formData,
@@ -161,7 +154,6 @@
                         })
                         .then(response => {
                             if (response.redirected) {
-                                // If redirected, reload the page to see updated state
                                 window.location.reload();
                             } else {
                                 return response.json();
@@ -169,18 +161,15 @@
                         })
                         .then(data => {
                             if (data && data.success) {
-                                // Update UI to show product is in cart
                                 updateProductCardToInCart(productId, 1);
                                 updateNavbarCartCount();
                             } else {
-                                // Reset button state
                                 submitBtn.disabled = false;
                                 submitBtn.innerHTML = originalContent;
                             }
                         })
                         .catch(error => {
                             console.error('Error:', error);
-                            // For now, just reload the page on error
                             window.location.reload();
                         });
                 });
@@ -189,13 +178,11 @@
             function attachAddToCartHandler(form) {
                 form.addEventListener('submit', function(e) {
                     e.preventDefault();
-                    // Handle the form submission for adding more quantity
-                    window.location.reload(); // For simplicity, reload page
+                    window.location.reload();
                 });
             }
 
             function updateNavbarCartCount() {
-                // Update navbar cart count via AJAX
                 fetch('/cart/summary', {
                         headers: {
                             'Accept': 'application/json',

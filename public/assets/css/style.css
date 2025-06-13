@@ -1,4 +1,3 @@
-/* Custom Styles */
 :root {
     --primary-color: #0d6efd;
     --secondary-color: #6c757d;
@@ -16,16 +15,12 @@ body {
     background-color: #f8f9fa;
 }
 
-/* Custom Styles for ShopUA */
-
-/* Hero Section */
 .hero-section {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     box-shadow: 0 10px 30px rgba(0,0,0,0.1);
     min-height: 300px;
 }
 
-/* Product Cards */
 .product-card {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     border: none;
@@ -65,7 +60,6 @@ body {
     font-size: 0.9rem;
 }
 
-/* Buttons */
 .btn {
     transition: all 0.3s ease;
     border-radius: 8px;
@@ -90,7 +84,6 @@ body {
     border-color: var(--primary-color);
 }
 
-/* Cart Status Buttons */
 .btn-group .btn-success {
     background: linear-gradient(45deg, #28a745, #20c997);
     border: none;
@@ -117,16 +110,22 @@ body {
     background: linear-gradient(45deg, #dc3545, #fd7e14);
 }
 
-/* Cart Styles */
 .cart-item {
     border-radius: 10px;
     background: #f8f9fa;
     margin-bottom: 1rem;
     transition: all 0.3s ease;
+    position: relative;
+    overflow: visible;
 }
 
 .cart-item:hover {
     background: #e9ecef;
+}
+
+.cart-item .row {
+    position: relative;
+    z-index: 1;
 }
 
 .cart-item-image {
@@ -136,7 +135,6 @@ body {
     border-radius: 8px;
 }
 
-/* Quantity Controls */
 .quantity-controls {
     display: flex;
     align-items: center;
@@ -162,12 +160,39 @@ body {
     border-color: var(--primary-color);
 }
 
-.quantity-input {
-    width: 80px;
-    text-align: center;
+.quantity-btn-plus,
+.quantity-btn-minus {
+    min-width: 32px;
+    height: 32px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    font-size: 0.875rem;
+    line-height: 1;
 }
 
-/* Button Styles */
+.quantity-btn-plus:hover,
+.quantity-btn-minus:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+.quantity-input {
+    width: 70px;
+    text-align: center;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    padding: 0.375rem 0.25rem;
+    font-size: 0.875rem;
+}
+
+.quantity-input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+}
+
 .btn-add-to-cart {
     background: linear-gradient(45deg, #28a745, #20c997);
     border: none;
@@ -180,7 +205,6 @@ body {
     box-shadow: 0 5px 15px rgba(40,167,69,0.3);
 }
 
-/* Navigation */
 .navbar-brand {
     font-size: 1.5rem;
 }
@@ -189,7 +213,6 @@ body {
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
-/* Cards */
 .card {
     border-radius: 15px;
     border: none;
@@ -200,7 +223,6 @@ body {
     padding: 1.5rem;
 }
 
-/* Animations */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -216,7 +238,6 @@ body {
     animation: fadeIn 0.5s ease-out;
 }
 
-/* Loading State */
 .loading-overlay {
     position: absolute;
     top: 0;
@@ -239,7 +260,6 @@ body {
     animation: spin 0.75s linear infinite;
 }
 
-/* Empty State */
 .empty-state {
     text-align: center;
     padding: 4rem 2rem;
@@ -252,7 +272,6 @@ body {
     opacity: 0.5;
 }
 
-/* Badges */
 .category-badge {
     position: absolute;
     top: 10px;
@@ -291,7 +310,6 @@ body {
     color: white;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
     .hero-section {
         padding: 2rem 1rem;
@@ -311,7 +329,6 @@ body {
     }
 }
 
-/* Spinner Animation */
 .loading {
     width: 2rem;
     height: 2rem;
@@ -325,14 +342,12 @@ body {
     to { transform: rotate(360deg); }
 }
 
-/* Toast Styling */
 .toast {
     border-radius: 10px;
     border: none;
     box-shadow: 0 5px 15px rgba(0,0,0,0.15);
 }
 
-/* Badge Animation */
 @keyframes pulse {
     0%, 100% { transform: scale(1); }
     50% { transform: scale(1.1); }
@@ -342,7 +357,6 @@ body {
     animation: pulse 0.3s ease-in-out;
 }
 
-/* Form Validation */
 .is-invalid {
     border-color: var(--danger-color);
 }

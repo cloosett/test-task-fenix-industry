@@ -1,7 +1,4 @@
-// Laravel Web App JavaScript
-
 document.addEventListener('DOMContentLoaded', function() {
-    // CSRF Token setup for AJAX if needed
     const token = document.querySelector('meta[name="csrf-token"]');
     if (token) {
         window.Laravel = {
@@ -9,7 +6,6 @@ document.addEventListener('DOMContentLoaded', function() {
         };
     }
 
-    // Add loading state to forms
     const forms = document.querySelectorAll('form');
     forms.forEach(form => {
         form.addEventListener('submit', function() {
@@ -27,7 +23,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Smooth scroll for anchor links
     const smoothScrollLinks = document.querySelectorAll('a[href^="#"]');
     smoothScrollLinks.forEach(link => {
         link.addEventListener('click', function(e) {
@@ -44,7 +39,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Auto-hide alerts after 5 seconds
     const alerts = document.querySelectorAll('.alert');
     alerts.forEach(alert => {
         setTimeout(() => {
@@ -53,7 +47,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 5000);
     });
 
-    // Confirm dialogs for dangerous actions
     const deleteButtons = document.querySelectorAll('button[onclick*="confirm"], form[action*="delete"] button[type="submit"]');
     deleteButtons.forEach(button => {
         if (!button.hasAttribute('onclick')) {
@@ -65,7 +58,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Image loading error handling
     const images = document.querySelectorAll('img');
     images.forEach(img => {
         img.addEventListener('error', function() {
@@ -73,7 +65,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Product card animations
     const productCards = document.querySelectorAll('.product-card');
     productCards.forEach(card => {
         card.addEventListener('mouseenter', function() {
@@ -86,7 +77,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Authentication modal functions (if modals are present)
 function showAuthModal(type) {
     console.log(type);
     const modal = document.getElementById('authModal');
@@ -99,7 +89,6 @@ function showAuthModal(type) {
     bsModal.show();
 }
 
-// Add to cart with visual feedback
 function addToCartWithFeedback(productId) {
     const button = event.target.closest('button');
     if (button) {
@@ -107,7 +96,6 @@ function addToCartWithFeedback(productId) {
         button.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Додавання...';
         button.disabled = true;
         
-        // The form will handle the actual submission
         setTimeout(() => {
             button.innerHTML = '<i class="fas fa-check me-2"></i>Додано!';
             setTimeout(() => {
@@ -118,7 +106,6 @@ function addToCartWithFeedback(productId) {
     }
 }
 
-// Quantity input validation
 document.addEventListener('input', function(e) {
     if (e.target.type === 'number' && e.target.name === 'quantity') {
         const min = parseInt(e.target.min) || 1;
@@ -133,7 +120,6 @@ document.addEventListener('input', function(e) {
     }
 });
 
-// Bootstrap tooltips initialization
 document.addEventListener('DOMContentLoaded', function() {
     const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
     tooltipTriggerList.map(function(tooltipTriggerEl) {
@@ -141,7 +127,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Utils
 function formatPrice(price) {
     return new Intl.NumberFormat('uk-UA', {
         style: 'currency',

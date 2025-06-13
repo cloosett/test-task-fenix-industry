@@ -1,4 +1,4 @@
-<!-- Authentication Modal -->
+
 <div class="modal fade" id="authModal" tabindex="-1" aria-labelledby="authModalTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -7,7 +7,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <!-- Login Form -->
+                
                 <form id="login-form" method="POST" action="{{ route('login') }}">
                     @csrf
                     <div class="mb-3">
@@ -43,9 +43,6 @@
                         <button type="submit" class="btn btn-primary">Увійти</button>
                     </div>
                 </form>
-            </div>
-            <div class="modal-footer">
-                <small class="text-muted">Тільки для демонстрації. Використовуйте тестові дані для входу.</small>
             </div>
         </div>
     </div>

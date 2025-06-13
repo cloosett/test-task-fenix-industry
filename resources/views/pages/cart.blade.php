@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Кошик - ShopUA')
+@section('title', 'Кошик')
 
 @section('content')
     <div class="container mt-4">
@@ -15,43 +15,47 @@
 
                 <div id="cart-items">
                     @forelse($cartItems as $item)
-                        <div class="cart-item p-3 border rounded mb-3" data-item-id="{{ $item->id }}">
-                            <div class="row align-items-center">
+                        <div class="cart-item p-3 border rounded mb-3" data-item-id="{{ $item->id }}"
+                            style="overflow: visible;">
+                            <div class="row align-items-center" style="overflow: visible;">
                                 <div class="col-md-2">
                                     <img src="{{ $item->product->image }}" class="cart-item-image w-100"
                                         alt="{{ $item->product->name }}">
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <h6 class="mb-1">{{ $item->product->name }}</h6>
                                     <small class="text-muted">{{ $item->product->category }}</small>
                                     <p class="mb-0 text-primary fw-bold">
                                         {{ number_format($item->product->price, 0, ',', ' ') }} ₴</p>
                                 </div>
-                                <div class="col-md-3">
-                                    <div class="d-flex align-items-center">
-                                        <label class="me-2">Кількість:</label>
-                                        <div class="quantity-controls d-flex">
+                                <div class="col-md-4">
+                                    <div class="d-flex align-items-center justify-content-center">
+                                        <label class="me-2 text-nowrap">Кількість:</label>
+                                        <div class="quantity-controls d-flex align-items-center"
+                                            style="position: relative; z-index: 10;">
                                             <button type="button"
                                                 class="btn btn-outline-secondary btn-sm quantity-btn-minus"
                                                 data-item-id="{{ $item->id }}"
-                                                data-current-quantity="{{ $item->quantity }}">
+                                                data-current-quantity="{{ $item->quantity }}"
+                                                style="min-width: 32px; height: 32px;">
                                                 <i class="fas fa-minus"></i>
                                             </button>
                                             <input type="number" class="form-control quantity-input mx-1"
                                                 value="{{ $item->quantity }}" min="1"
                                                 max="{{ $item->product->stock }}" data-item-id="{{ $item->id }}"
-                                                style="width: 70px;">
+                                                style="width: 70px; text-align: center;">
                                             <button type="button"
                                                 class="btn btn-outline-secondary btn-sm quantity-btn-plus"
                                                 data-item-id="{{ $item->id }}"
                                                 data-current-quantity="{{ $item->quantity }}"
-                                                data-max-stock="{{ $item->product->stock }}">
+                                                data-max-stock="{{ $item->product->stock }}"
+                                                style="min-width: 32px; height: 32px;">
                                                 <i class="fas fa-plus"></i>
                                             </button>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-2 text-end">
+                                <div class="col-md-3 text-end">
                                     <div class="fw-bold text-primary mb-2 item-subtotal">
                                         {{ number_format($item->total, 0, ',', ' ') }} ₴
                                     </div>
@@ -128,7 +132,6 @@
             const clearCartForm = document.getElementById('clear-cart-form');
             const checkoutBtnDisabled = document.getElementById('checkout-btn-disabled');
 
-            // Update quantity via AJAX
             function updateQuantity(itemId, newQuantity) {
                 const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
@@ -146,19 +149,15 @@
                     .then(response => response.json())
                     .then(data => {
                         if (data.success) {
-                            // Update item subtotal
                             const itemElement = document.querySelector(`[data-item-id="${itemId}"]`);
                             const subtotalElement = itemElement.querySelector('.item-subtotal');
                             subtotalElement.textContent = data.item.formatted_subtotal;
 
-                            // Update cart summary
                             totalItemsElement.textContent = data.cart.total_items;
                             totalElement.textContent = data.cart.formatted_total;
 
-                            // Update navbar cart count
                             updateNavbarCartCount(data.cart.total_items);
 
-                            // Update quantity buttons
                             updateQuantityButtons(itemId, data.item.quantity);
                         } else {
                             alert(data.error || 'Помилка при оновленні кількості');
@@ -170,7 +169,6 @@
                     });
             }
 
-            // Remove item via AJAX
             function removeItem(itemId) {
                 const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
@@ -185,18 +183,14 @@
                     .then(response => response.json())
                     .then(data => {
                         if (data.success) {
-                            // Remove item from DOM
                             const itemElement = document.querySelector(`[data-item-id="${itemId}"]`);
                             itemElement.remove();
 
-                            // Update cart summary
                             totalItemsElement.textContent = data.cart.total_items;
                             totalElement.textContent = data.cart.formatted_total;
 
-                            // Update navbar cart count
                             updateNavbarCartCount(data.cart.total_items);
 
-                            // Show empty cart message if no items left
                             if (data.cart.total_items === 0) {
                                 showEmptyCartMessage();
                             }
@@ -210,7 +204,6 @@
                     });
             }
 
-            // Update navbar cart count
             function updateNavbarCartCount(count) {
                 const navbarBadge = document.querySelector('.navbar .badge');
                 if (navbarBadge) {
@@ -218,7 +211,6 @@
                 }
             }
 
-            // Update quantity button states
             function updateQuantityButtons(itemId, quantity) {
                 const itemElement = document.querySelector(`[data-item-id="${itemId}"]`);
                 const minusBtn = itemElement.querySelector('.quantity-btn-minus');
@@ -226,14 +218,14 @@
                 const input = itemElement.querySelector('.quantity-input');
 
                 minusBtn.disabled = quantity <= 1;
-                plusBtn.disabled = quantity >= parseInt(plusBtn.dataset.maxStock);
+                const maxStock = parseInt(plusBtn.getAttribute('data-max-stock'));
+                plusBtn.disabled = quantity >= maxStock;
 
-                minusBtn.dataset.currentQuantity = quantity;
-                plusBtn.dataset.currentQuantity = quantity;
+                minusBtn.setAttribute('data-current-quantity', quantity);
+                plusBtn.setAttribute('data-current-quantity', quantity);
                 input.value = quantity;
             }
 
-            // Show empty cart message
             function showEmptyCartMessage() {
                 cartContainer.innerHTML = `
             <div class="empty-state text-center py-5" id="empty-cart-message">
@@ -246,28 +238,30 @@
             </div>
         `;
 
-                // Hide checkout and clear buttons, show disabled button
                 if (checkoutForm) checkoutForm.style.display = 'none';
                 if (clearCartForm) clearCartForm.style.display = 'none';
                 if (checkoutBtnDisabled) checkoutBtnDisabled.style.display = 'block';
             }
 
-            // Event listeners
             cartContainer.addEventListener('click', function(e) {
                 const target = e.target.closest('button');
                 if (!target) return;
 
-                const itemId = target.dataset.itemId;
+                const itemId = target.getAttribute('data-item-id');
 
                 if (target.classList.contains('quantity-btn-plus')) {
-                    const currentQuantity = parseInt(target.dataset.currentQuantity);
-                    const maxStock = parseInt(target.dataset.maxStock);
-                    if (currentQuantity < maxStock) {
+                    const currentQuantity = parseInt(target.getAttribute('data-current-quantity'));
+                    const maxStock = parseInt(target.getAttribute('data-max-stock'));
+
+                    if (!isNaN(currentQuantity) && !isNaN(maxStock) && currentQuantity < maxStock) {
                         updateQuantity(itemId, currentQuantity + 1);
+                    } else if (currentQuantity >= maxStock) {
+                        alert('Досягнуто максимальну кількість товару в наявності');
                     }
                 } else if (target.classList.contains('quantity-btn-minus')) {
-                    const currentQuantity = parseInt(target.dataset.currentQuantity);
-                    if (currentQuantity > 1) {
+                    const currentQuantity = parseInt(target.getAttribute('data-current-quantity'));
+
+                    if (!isNaN(currentQuantity) && currentQuantity > 1) {
                         updateQuantity(itemId, currentQuantity - 1);
                     }
                 } else if (target.classList.contains('remove-item-btn')) {
@@ -277,7 +271,6 @@
                 }
             });
 
-            // Handle manual quantity input changes
             cartContainer.addEventListener('change', function(e) {
                 if (e.target.classList.contains('quantity-input')) {
                     const itemId = e.target.dataset.itemId;

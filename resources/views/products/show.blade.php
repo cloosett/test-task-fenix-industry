@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', $product->name . ' - ShopUA')
+@section('title', $product->name)
 
 @section('content')
     <div class="container mt-4">
@@ -79,7 +79,7 @@
             </div>
         </div>
 
-        <!-- Related Products -->
+        
         <div class="mt-5">
             <h3>Схожі товари</h3>
             <div class="row">
